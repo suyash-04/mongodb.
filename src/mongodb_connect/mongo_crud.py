@@ -18,7 +18,7 @@ class mongo_operation:
     __collection = None # a variable that will be storing the collection name
     __database = None # a variable that will be storing the database name
     
-    def __init__(self, client_url: str, database_name: str,collection_name:str =  None):
+    def __init__(self, client_url: str, database_name: str,collection_name:str =  None): # type: ignore
         self.client_url = client_url
         self.database_name = database_name
         self.collection_name = collection_name
@@ -26,10 +26,11 @@ class mongo_operation:
     @property
     def __create_mongo_client(self):
         """to create a MongoClient instance
-        Returns:
+        Returns:    
             client: mongodb client instance
         """
         client = pymongo.MongoClient(self.client_url)
+        
         return client
     
     @property        
@@ -105,7 +106,7 @@ class mongo_operation:
         elif type(record)== dict:
             self.__connect_collection.insert_one(record)
     @ensure_annotations
-    def bulk_insert(self, dataframe ,collection_name:str = None, **kwargs ):
+    def bulk_insert(self, dataframe ,collection_name:str = None, **kwargs ): # type: ignore # type: ignore
         """ insert data from dataframe object / csv /excel file to mongodb
         
         ------
@@ -117,21 +118,21 @@ class mongo_operation:
         
         """
         if collection_name:
-           self.set_new_collection = collection_name
+           self.set_new_collection = collection_name # type: ignore
         if not isinstance(dataframe, pd.DataFrame):
             
             path = dataframe
             if path.endswith('.csv'):
                 dataframe = pd.read_csv(path, encoding='utf8', **kwargs)
             elif path.endswith('.xlsx'):
-                dataframe = pd.read_excel(path, encoding = 'utf8', **kwargs)
+                dataframe = pd.read_excel(path, encoding = 'utf8', **kwargs) # type: ignore # type: ignore
     
             
         data_json = json.loads(dataframe.to_json(orient='records'))
         self.__connect_collection.insert_many(data_json)
        
     @ensure_annotations
-    def find(self, collection_name:str = None,  query:dict={}) :
+    def find(self, collection_name:str = None,  query:dict={}) : # type: ignore
         """
         To find data in mongo database
         returns dataframe of the searched data. 
@@ -142,7 +143,7 @@ class mongo_operation:
                     -- example of query -- {"name":"sourav"}
         """
         if collection_name:
-           self.set_new_collection = collection_name
+           self.set_new_collection = collection_name # type: ignore
             
         if self.collection_name not in self.__connect_database.list_collection_names():
             raise NameError("""Collection not found in mongo database. Following could be the reason.
