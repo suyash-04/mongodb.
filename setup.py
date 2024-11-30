@@ -29,7 +29,7 @@ setup(
 "pandas",
 "numpy",
 "ensure",
-"pytest"]
+"pytest","setuptools"]
     )
 
 
