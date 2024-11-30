@@ -8,10 +8,14 @@ on:
     branches: [ "main" ]
     paths-ignore:
         - 'README.md'  
+
+
 permissions:
   contents: read
+
 jobs:
   build:
+
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
